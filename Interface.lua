@@ -1453,27 +1453,13 @@ function Interface.CheckLastTargetChanged(timePassed)
 	end
 	
 	if SystemData.Settings.GameOptions.legacyTargeting then
-		if newTarg ~= 0 and IsMobile(newTarg) then
-				--WindowData.CurrentTarget.TargetId = newTarg
-				--TargetWindow.UpdateMobile()
-				--WindowData.CurrentTarget.TargetId = 0
-				
-				local mobileData = Interface.GetMobileData(newTarg, true)
-				local name = WindowData.MobileName[newTarg]
-				WindowSetShowing("TargetWindow", true)
-				TargetWindow.TargetId = newTarg
-				LabelSetText("TargetWindowName", name.MobName)
-				NameColor.UpdateLabelNameColor("TargetWindowName", WindowData.MobileName[newTarg].Notoriety+1)
-		else
-			WindowSetShowing("TargetWindow", false)
-		end
 		distance = GetDistanceFromPlayer(newTarg)
 		if distance < 0 or distance > 22 then
 			--MobileHealthBar.mouseOverId = 0
 			--MobileHealthBar.OnMouseOverEnd()
 		else
 			MobileHealthBar.mouseOverId = newTarg
-		--	--MobileHealthBar.OnMouseOver()
+			--MobileHealthBar.OnMouseOver()
 		end
 	end
 	
@@ -1481,7 +1467,6 @@ function Interface.CheckLastTargetChanged(timePassed)
 		if SystemData.Settings.GameOptions.legacyTargeting then
 			MobileHealthBar.OnMouseOverEnd()
 			MobileHealthBar.mouseOverId = newTarg
-			--MobileHealthBar.OnMouseOver()
 		end
 		Interface.OnTarget(newTarg, oldTarg)
 		Interface.LastTarget = WindowData.Cursor.lastTarget

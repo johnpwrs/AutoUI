@@ -131,6 +131,7 @@ function TargetWindow.UnregisterPreviousTargetData()
 	end
 end
 
+
 function TargetWindow.UpdateMobile()
 	if( TargetWindow.HasTarget == false or
 	(TargetWindow.HasTarget == true and WindowData.CurrentTarget.TargetId ~= TargetWindow.TargetId) ) then
@@ -640,4 +641,18 @@ function TargetWindow.LockTooltip()
 	
 	Tooltips.Finalize()
 	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
+end
+
+-- AutoUI
+function TargetWindow.UpdateLastTargetTargetWindow(targetId)
+    if targetId ~= 0 and IsMobile(targetId) then
+            local mobileData = Interface.GetMobileData(targetId, true)
+            local name = WindowData.MobileName[targetId]
+            WindowSetShowing("TargetWindow", true)
+            TargetWindow.TargetId = targetId
+            LabelSetText("TargetWindowName", name.MobName)
+            NameColor.UpdateLabelNameColor("TargetWindowName", WindowData.MobileName[targetId].Notoriety+1)
+    else
+        WindowSetShowing("TargetWindow", false)
+    end
 end
