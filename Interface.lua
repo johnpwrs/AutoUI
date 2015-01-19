@@ -1453,6 +1453,7 @@ function Interface.CheckLastTargetChanged(timePassed)
 	end
 	
 	if SystemData.Settings.GameOptions.legacyTargeting then
+        TargetWindow.UpdateLastTargetTargetWindow(newTarg)
 		distance = GetDistanceFromPlayer(newTarg)
 		if distance < 0 or distance > 22 then
 			--MobileHealthBar.mouseOverId = 0
