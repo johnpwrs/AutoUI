@@ -1002,10 +1002,13 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(Interface.SkillLocker, timePassed)	
 	Interface.ErrorTracker(ok, err)
+
+    -- AutoUI	
+    ok, err = pcall(Interface.UpdateLastTargetIndicators, timePassed)	
+	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.CheckLastTargetChanged, timePassed)	
 	Interface.ErrorTracker(ok, err)
-	
 	
 	ok, err = pcall(Actions.MassOrganizer, timePassed)	
 	Interface.ErrorTracker(ok, err)
@@ -1452,26 +1455,34 @@ function Interface.CheckLastTargetChanged(timePassed)
 		oldTarg = 0
 	end
 	
-	if SystemData.Settings.GameOptions.legacyTargeting then
-        TargetWindow.UpdateLastTargetTargetWindow(newTarg)
-		distance = GetDistanceFromPlayer(newTarg)
-		if distance < 0 or distance > 22 then
-			--MobileHealthBar.mouseOverId = 0
-			--MobileHealthBar.OnMouseOverEnd()
-		else
-			MobileHealthBar.mouseOverId = newTarg
-			--MobileHealthBar.OnMouseOver()
-		end
-	end
-	
 	if WindowData.Cursor.lastTarget ~= Interface.LastTarget then
-		if SystemData.Settings.GameOptions.legacyTargeting then
-			MobileHealthBar.OnMouseOverEnd()
-			MobileHealthBar.mouseOverId = newTarg
-		end
 		Interface.OnTarget(newTarg, oldTarg)
 		Interface.LastTarget = WindowData.Cursor.lastTarget
 	end
+end
+
+
+-- AutoUI
+function Interface.UpdateLastTargetIndicators(timePassed)
+	if not SystemData.Settings.GameOptions.legacyTargeting then
+	    return
+    end
+	
+    local newTarg = WindowData.Cursor.lastTarget
+	if newTarg == nil then
+		newTarg = 0
+	end
+
+    TargetWindow.UpdateLastTargetTargetWindow(newTarg)
+    
+    distance = GetDistanceFromPlayer(newTarg)
+    if distance > 0 and distance < 22 then
+        MobileHealthBar.mouseOverId = newTarg
+    end
+	if WindowData.Cursor.lastTarget ~= Interface.LastTarget then
+        MobileHealthBar.OnMouseOverEnd()
+        MobileHealthBar.mouseOverId = newTarg
+    end
 end
 
 function Interface.PaperdollCheck(timePassed)
