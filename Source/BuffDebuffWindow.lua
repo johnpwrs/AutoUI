@@ -600,6 +600,7 @@ end
 
 function BuffDebuff.UpdateStatus(iconId)
 	local buffId = iconId
+	local data = BuffDebuff.BuffData[buffId]
 	
 	local parent = "BuffDebuffIcon"..buffId
 	local iconTextureName = parent.."TextureIcon"
@@ -608,7 +609,12 @@ function BuffDebuff.UpdateStatus(iconId)
 	local rowServerNum = CSVUtilities.getRowIdWithColumnValue(WindowData.BuffDataCSV, "ServerId", buffId)
 	local textureId = tonumber(WindowData.BuffDataCSV[rowServerNum].IconId)
 	if( textureId ~= nil or textureId ~= -1) then
-		--Debug.Print("BuffDebuff UpdateStatus textureId = "..textureId)
+        if (buffId == 1070) then
+            local toolTip = data.ToolTipWStringVector[1]
+            local damageMod = wstring.match(toolTip, StringToWString("Damage.*"))
+            WindowUtils.SendOverheadText(damageMod, 33, false)
+        end    
+        --Debug.Print("BuffDebuff UpdateStatus textureId = "..textureId)
 		local texture, x, y = GetIconData( textureId )
 		DynamicImageSetTexture( iconTextureName, texture, x, y )
 	end	
