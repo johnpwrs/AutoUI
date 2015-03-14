@@ -9,3 +9,6 @@ Features
 
 ### Magery PVP Help
 - Overhead text on top of character when spell focusing sash changes status
+
+### Misc PVP Help
+- When you are below 100% health, overhead text on top of character shows percentage that health is at.  No long need to glance at healthbar!
