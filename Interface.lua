@@ -22,6 +22,8 @@ end
 -- In-Game Interface Initialization Variables
 ----------------------------------------------------------------
 
+
+Interface.CurrHealth = 100
 Interface.DebugMode = false
 
 Interface.TID = { accept=1013076, cancel=1011012 }
@@ -1006,6 +1008,9 @@ function Interface.Update( timePassed )
     -- AutoUI	
     ok, err = pcall(Interface.UpdateLastTargetIndicators, timePassed)	
 	Interface.ErrorTracker(ok, err)
+    
+    ok, err = pcall(Interface.UpdateHealthText, timePassed)	
+	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.CheckLastTargetChanged, timePassed)	
 	Interface.ErrorTracker(ok, err)
@@ -1462,11 +1467,24 @@ function Interface.CheckLastTargetChanged(timePassed)
 end
 
 
+function Interface.UpdateHealthText(timePassed)
+    local curr = WindowData.PlayerStatus.CurrentHealth
+    local max = WindowData.PlayerStatus.MaxHealth
+    local percentage = math.floor((curr / max) * 100)
+    
+
+    if curr < max and percentage ~= Interface.CurrHealth then
+         Interface.CurrHealth = percentage
+         local text = StringToWString("["..percentage.."%]")
+         WindowUtils.SendOverheadText(text, 33, false)    
+    end      
+end
+
 -- AutoUI
 function Interface.UpdateLastTargetIndicators(timePassed)
-	if not SystemData.Settings.GameOptions.legacyTargeting then
-	    return
-    end
+if not SystemData.Settings.GameOptions.legacyTargeting then
+    return
+end
 	
     local newTarg = WindowData.Cursor.lastTarget
 	if newTarg == nil then
