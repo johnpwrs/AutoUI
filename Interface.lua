@@ -1471,12 +1471,18 @@ function Interface.UpdateHealthText(timePassed)
     local curr = WindowData.PlayerStatus.CurrentHealth
     local max = WindowData.PlayerStatus.MaxHealth
     local percentage = math.floor((curr / max) * 100)
-    
+    local hue = 33
 
+    if percentage >= 75 then
+        hue = 1152
+    elseif percentage >= 50 then
+        hue = 23
+    end
+        
     if curr < max and percentage ~= Interface.CurrHealth then
          Interface.CurrHealth = percentage
          local text = StringToWString("["..percentage.."%]")
-         WindowUtils.SendOverheadText(text, 33, false)    
+         WindowUtils.SendOverheadText(text, hue, false)    
     end      
 end
 
