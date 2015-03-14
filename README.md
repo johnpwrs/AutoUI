@@ -4,7 +4,8 @@ AutoUI
 Install
 --------
 - Download latest release - https://github.com/johnpwrs/AutoUI/releases
-- Unzip and put the folder into the UserInterface directory. Usually found at c:\Program Files (x86)\Electronic Arts\Ultima Online Enhanced\UserInterface\AutoUI- When you login to Enhanced Client, click Custom UI at the top of the screen, choose AutoUI
+- Unzip and put the folder into the UserInterface directory. Usually found at c:\Program Files (x86)\Electronic Arts\Ultima Online Enhanced\UserInterface\AutoUI
+- When you login to Enhanced Client, click Custom UI at the top of the screen, choose AutoUI
  
 
 Features
